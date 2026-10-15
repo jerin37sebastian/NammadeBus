@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+
+Sitemap: https://jerin37sebastian.github.io/Nammade-bus/sitemap.xml
