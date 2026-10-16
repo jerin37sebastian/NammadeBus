@@ -1,4 +1,4 @@
-  (function () {
+(function () {
   "use strict";
   var $ = function (s) { return document.querySelector(s); };
   var MAX_PINS = 3, SITE = "https://jerin37sebastian.github.io/Nammade-bus/";
@@ -113,13 +113,14 @@
 
   /* route status from Firestore (live / coming_soon) */
   function setStatus(card, status) {
-    var a = card.querySelector(".route-link"), soon = a.querySelector(".soon");
+    var a = card.querySelector(".route-link"), sub = a.querySelector(".sub");
     card.dataset.status = status;
     if (status === "live") {
-      a.href = "select-stops.html?route=" + card.dataset.id; a.removeAttribute("aria-disabled"); if (soon) soon.remove();
+      a.href = "select-stops.html?route=" + card.dataset.id; a.removeAttribute("aria-disabled");
+      sub.className = "sub live"; sub.textContent = "Live now";
     } else {
       a.removeAttribute("href"); a.setAttribute("aria-disabled", "true");
-      if (!soon) { var em = document.createElement("em"); em.className = "soon"; em.textContent = "Coming soon"; a.appendChild(em); }
+      sub.className = "sub soon"; sub.textContent = "Coming soon";
     }
   }
   function loadRoutes() {
