@@ -86,5 +86,16 @@
 <script src="js/firebase-config.js" defer></script>
 <script src="js/common.js" defer></script>
 <script src="js/select-stops.js" defer></script>
+<script>
+/* Self-check: if the stops never load, say which file is the problem. */
+(function(){var bad=[];
+[].forEach.call(document.scripts,function(s){if(s.src)s.addEventListener("error",function(){bad.push(s.getAttribute("src"))})});
+addEventListener("load",function(){setTimeout(function(){
+var n=document.getElementById("routeNote");
+if(!n||n.textContent!=="Loading stops...")return;
+try{performance.getEntriesByType("resource").forEach(function(e){if(/\/js\//.test(e.name)&&e.responseStatus>=400){var f=e.name.split("/").slice(-2).join("/");if(bad.indexOf(f)<0)bad.push(f)}})}catch(x){}
+n.textContent=bad.length?"These files did not load: "+bad.join(", ")+". Check their names and folders in your repo.":(window.NB?"The page script did not start. Press F12 and read the red error in Console.":"js/common.js did not run. Press F12 and read the red error in Console.");
+},2500)})})();
+</script>
 </body>
 </html>
