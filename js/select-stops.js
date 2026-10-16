@@ -40,11 +40,21 @@
     $("#adLogo").textContent = a.initials || a.name.split(/\s+/).map(function (w) { return w[0]; }).join("").slice(0, 2).toUpperCase();
   }
 
-  function init(r) {
+  /* Use routeOrder, or the stops in stopOffsets (sorted by minutes) if that list is longer. */
+  function stopList(r) {
+    var a = Array.isArray(r.routeOrder) ? r.routeOrder.slice() : [], b = [];
+    if (r.stopOffsets && typeof r.stopOffsets === "object") {
+      b = Object.keys(r.stopOffsets).sort(function (x, y) { return r.stopOffsets[x] - r.stopOffsets[y]; });
+    }
+    return b.length > a.length ? b : a;
+  }
+
+  function init(r, demo) {
+    if (r) r.routeOrder = stopList(r);
     if (!r || !r.routeOrder || r.routeOrder.length < 2) { fail("We could not load the stops for this route. Please go back and try again."); return; }
     if (r.status && r.status !== "live") { fail("This route is coming soon. Check back later."); return; }
     stops = r.routeOrder; ads = r.stopAds || {};
-    $("#routeNote").textContent = "This route consist of " + stops.join(", ") + ".";
+    $("#routeNote").textContent = (demo ? "Demo stops (Firebase is not connected yet). " : "") + "This route consist of " + stops.join(", ") + ".";
     var saved = NB.store.get("nb-sel-" + id, {});
     fill(fromSel, stops.indexOf(saved.from) > -1 ? saved.from : stops[0]);
     fill(toSel, stops.indexOf(saved.to) > -1 ? saved.to : stops[stops.length - 1]);
@@ -68,7 +78,7 @@
   if (!id) { fail("No route selected. Go back to Home and choose a route."); return; }
   $("#routeNote").textContent = "Loading stops...";
   NB.ready.then(function (db) {
-    if (!db) { init(DEMO); return; }
+    if (!db) { init(DEMO, true); return; }
     db.collection("routes").doc(id).get().then(function (d) { init(d.exists ? d.data() : null); }).catch(function () { init(null); });
   });
 })();
