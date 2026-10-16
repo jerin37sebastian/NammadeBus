@@ -2,12 +2,16 @@
 (function () {
   "use strict";
   var $ = function (s) { return document.querySelector(s); };
-  var SITE = "https://jerin37sebastian.github.io/NammadeBus/";
+  var SITE = "https://jerin37sebastian.github.io/Nammadebus/";
   var today = function () { return new Date().toISOString().slice(0, 10); };
   var store = {
     get: function (k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
     set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   };
+  /* PASTE YOUR FIREBASE CONFIG HERE (replace null). Example:
+     var INLINE_CONFIG = { apiKey: "...", authDomain: "...", projectId: "nammade-bus", appId: "..." }; */
+  var INLINE_CONFIG = null;
+
   var NB = window.NB = { SITE: SITE, store: store, today: today, db: null, uid: null };
 
   var toastEl = $("#toast"), toastT;
@@ -63,7 +67,7 @@
 
   /* firebase: NB.ready resolves once (db is null if no config) */
   NB.ready = new Promise(function (resolve) {
-    var cfg = window.FIREBASE_CONFIG || (typeof firebaseConfig !== "undefined" ? firebaseConfig : null);
+    var cfg = INLINE_CONFIG || window.FIREBASE_CONFIG || (typeof firebaseConfig !== "undefined" ? firebaseConfig : null);
     if (!cfg) { NB.error = "no-config"; resolve(null); return; }
     if (!window.firebase) { NB.error = "no-sdk"; resolve(null); return; }
     try {
