@@ -2,7 +2,7 @@
 (function () {
   "use strict";
   var $ = function (s) { return document.querySelector(s); };
-  var SITE = "https://jerin37sebastian.github.io/Nammade-bus/";
+  var SITE = "https://jerin37sebastian.github.io/NammadeBus/";
   var today = function () { return new Date().toISOString().slice(0, 10); };
   var store = {
     get: function (k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
