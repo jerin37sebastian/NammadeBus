@@ -63,11 +63,13 @@
 
   /* firebase: NB.ready resolves once (db is null if no config) */
   NB.ready = new Promise(function (resolve) {
-    if (!window.FIREBASE_CONFIG || !window.firebase) { resolve(null); return; }
+    var cfg = window.FIREBASE_CONFIG || (typeof firebaseConfig !== "undefined" ? firebaseConfig : null);
+    if (!cfg) { NB.error = "no-config"; resolve(null); return; }
+    if (!window.firebase) { NB.error = "no-sdk"; resolve(null); return; }
     try {
-      firebase.initializeApp(window.FIREBASE_CONFIG); NB.db = firebase.firestore();
-      firebase.auth().signInAnonymously().then(function (c) { NB.uid = c.user.uid; resolve(NB.db); loadLikes(); })
+      firebase.initializeApp(cfg); NB.db = firebase.firestore();
+      firebase.auth().signInAnonymously().then(function (r) { NB.uid = r.user.uid; resolve(NB.db); loadLikes(); })
         .catch(function () { resolve(NB.db); });
-    } catch (e) { resolve(null); }
+    } catch (e) { NB.error = "init-failed"; resolve(null); }
   });
 })();
