@@ -8,9 +8,17 @@
     get: function (k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
     set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   };
-  /* PASTE YOUR FIREBASE CONFIG HERE (replace null). Example:
-     var INLINE_CONFIG = { apiKey: "...", authDomain: "...", projectId: "nammade-bus", appId: "..." }; */
-  var INLINE_CONFIG = null;
+
+  var INLINE_CONFIG = {
+  apiKey: "AIzaSyAnS-2c7UOEUwaH8caIuLp2QfwSOe_T7uU",
+  authDomain: "nammade-bus.firebaseapp.com",
+  databaseURL: "https://nammade-bus-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "nammade-bus",
+  storageBucket: "nammade-bus.firebasestorage.app",
+  messagingSenderId: "485767107104",
+  appId: "1:485767107104:web:e1994769da457ca40f6245",
+  measurementId: "G-DNTP66ERPZ"
+};
 
   var NB = window.NB = { SITE: SITE, store: store, today: today, db: null, uid: null };
 
