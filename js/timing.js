@@ -185,19 +185,25 @@
     if (!fitted) { map.fitBounds(line.getBounds(), { padding: [30, 30] }); fitted = true; }
     $("#mapInfo").textContent = (userPos ? "From your location: " : FROM + " to " + TO + ": ") + info;
   }
+  var accC;
   function onPos(p) {
-    userPos = { lat: p.coords.latitude, lng: p.coords.longitude };
+    var acc = Math.round(p.coords.accuracy || 0);
     if (!map) return;
+    if (acc > 300) { $("#mapInfo").textContent = "Your location is rough (about " + acc + " m off), so the route still starts from " + FROM + ". Try outdoors or on a phone with GPS on."; return; }
+    userPos = { lat: p.coords.latitude, lng: p.coords.longitude };
     if (fromM) { map.removeLayer(fromM); fromM = null; }
     if (!userM) { userM = L.marker([userPos.lat, userPos.lng], { icon: dot("#2f7bff") }).addTo(map).bindPopup("You are here"); fitted = false; }
     else userM.setLatLng([userPos.lat, userPos.lng]);
+    if (accC) map.removeLayer(accC);
+    accC = L.circle([userPos.lat, userPos.lng], { radius: acc, color: "#2f7bff", weight: 1, fillOpacity: .12 }).addTo(map);
+    $("#locBtn").textContent = "Location accuracy: " + acc + " m";
     if (!lastO || (km(lastO, userPos) > 60 && Date.now() - lastAt > 15000) || !fitted) drawRoute(userPos);
   }
   function startLoc() {
     if (watchId !== null) return;
     if (!navigator.geolocation) { NB.toast("Location is not supported on this device"); return; }
     watchId = navigator.geolocation.watchPosition(onPos, function () { watchId = null; NB.toast("Location permission denied or unavailable."); },
-      { enableHighAccuracy: true, maximumAge: 10000, timeout: 20000 });
+      { enableHighAccuracy: true, maximumAge: 0, timeout: 30000 });
     $("#locBtn").textContent = "Using your location";
   }
   $("#locBtn").addEventListener("click", startLoc);
@@ -214,6 +220,14 @@
     document.head.appendChild(s);
   }
 
+  function debugBox() {
+    var o = route.routeOrder, fwd = o.indexOf(FROM) < o.indexOf(TO), arr = route[fwd ? FWD : BACK] || [], co = route.stopCoordinates || {};
+    var f = function (b) { return b.name + " dep " + clock(b.dep) + " arr " + clock(b.arr); };
+    var t = ["DEBUG (send me a screenshot of this box)", "device time: " + new Date().toString(), "direction: " + (fwd ? "forward" : "backward") + " -> using " + (fwd ? FWD : BACK),
+      "referenceStop: " + route.referenceStop, "offset FROM=" + off[FROM] + "  TO=" + off[TO], "routeOrder: " + o.join(" > "), "stopOffsets: " + JSON.stringify(off),
+      "coords FROM: " + JSON.stringify(co[FROM]) + "  TO: " + JSON.stringify(co[TO]), "raw first 3 (" + (fwd ? FWD : BACK) + "): " + JSON.stringify(arr.slice(0, 3)), "computed first 3: " + buses.slice(0, 3).map(f).join(" | ")];
+    var pre = document.createElement("pre"); pre.className = "dbg"; pre.textContent = t.join("\n"); document.querySelector("main").appendChild(pre);
+  }
   function fail(msg) { $("#carousel").hidden = true; $("#mapCard").hidden = true; $("#noBus").hidden = false; $("#noBus").textContent = msg; }
   function init(r) {
     route = r;
@@ -225,7 +239,7 @@
     pins.forEach(function (p) { if (cards[p.key] === undefined && up.indexOf(p.key) < 0 && buses.some(function (b) { return b.key === p.key; })) up.push(p.key); });
     buses.forEach(function (b) { if (up.indexOf(b.key) > -1) add(b); });
     Object.keys(cards).forEach(function (k) { upd(cards[k], now); });
-    relabel(); markPast(now); seo(); initMap();
+    relabel(); markPast(now); seo(); initMap(); if (q.get("debug") === "1") debugBox();
     setInterval(tick, 20000);
   }
 
