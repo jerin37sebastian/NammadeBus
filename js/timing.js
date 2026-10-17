@@ -4,23 +4,27 @@
   var q = new URLSearchParams(location.search);
   var ID = q.get("route") || "", FROM = q.get("from") || "", TO = q.get("to") || "";
   var MAX_PINS = 3, GRACE = 10;               // GRACE = minutes a finished pinned journey stays
-  /* Which schedule runs which way. ASSUMPTION: moving forward along routeOrder = towards Thodupuzha = schedule_to.
-     If your buses show on the wrong direction, swap these two words. */
-  var FWD = "schedule_to", BACK = "schedule_from";
-  var route, off = {}, seg = [], buses = [], cards = {};
+  /* schedule_to = buses heading TO Thodupuzha, schedule_from = buses leaving Thodupuzha. */
+  var TOWARD = "schedule_to", AWAY = "schedule_from";
+  var route, off = {}, R0 = 0, seg = [], buses = [], cards = {};
   var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   var clock = function (d) { var h = d.getHours(), m = d.getMinutes(); return ((h % 12) || 12) + ":" + (m < 10 ? "0" : "") + m + " " + (h < 12 ? "AM" : "PM"); };
 
-  /* placeholder data, used only when Firebase is not configured (coordinates are rough guesses) */
+  /* placeholder data, used only when Firebase is not configured */
   function demo() {
-    var order = ["Thodupuzha Stand", "Pannimattom", "Injikatt Kavala", "Muttom", "Poomala"];
-    var offs = { "Thodupuzha Stand": 0, "Pannimattom": 8, "Injikatt Kavala": 20, "Muttom": 30, "Poomala": 40 };
-    var n = new Date(), nm = n.getHours() * 60 + n.getMinutes(), base = offs[FROM] || 0;
-    var mk = function (k, name) { var t = (nm + k - base + 1440) % 1440; return { time: Math.floor(t / 60) + ":" + ("0" + (t % 60)).slice(-2), period: "", busName: name, regNum: name === "Mariya" ? "KL 06 A 1234" : "" }; };
-    var list = [mk(6, "Mariya"), mk(18, "Sree Devi"), mk(33, "Anjali"), mk(52, "Mariya"), mk(80, "Holy Mary")];
-    return { status: "live", routeOrder: order, stopOffsets: offs, schedule_to: list, schedule_from: list,
-      stopCoordinates: { "Thodupuzha Stand": { lat: 9.8951, lng: 76.7186 }, "Pannimattom": { lat: 9.8858, lng: 76.728 }, "Injikatt Kavala": { lat: 9.87, lng: 76.745 }, "Muttom": { lat: 9.85, lng: 76.78 }, "Poomala": { lat: 9.84, lng: 76.82 } },
+    var order = ["Poomala", "Injikatt Kavala", "Pannimattom", "Karukapally Kavala", "Elamdhesham", "Elamdhesham School", "Kalayanthani", "Alacode", "Meenmutty", "Edavetty", "Edavetty Jaram", "Kumbakallu", "Thodupuzha Stand"];
+    var o = [-3, 0, 3, 8, 12, 16, 20, 24, 27, 31, 34, 37, 42], offs = {};
+    order.forEach(function (n, i) { offs[n] = o[i]; });
+    var list = []; for (var m = 350; m < 1320; m += 25) list.push({ time: Math.floor(m / 60) + ":" + ("0" + (m % 60)).slice(-2), period: "", busName: m % 50 ? "Mariya" : "Sree Devi", regNum: m % 50 ? "" : "KL 06 A 1234" });
+    return { status: "live", referenceStop: "Injikatt Kavala", routeOrder: order, stopOffsets: offs, schedule_to: list, schedule_from: list,
       stopAds: { "Injikatt Kavala": { name: "Kavala Store", tagline: "Fresh groceries daily." } } };
+  }
+
+  var norm = function (s) { return String(s).toLowerCase().replace(/[^a-z0-9]/g, ""); };
+  function coordFor(name) {
+    var srcs = [(window.STOP_COORDS || {})[ID] || {}, (route && route.stopCoordinates) || {}];
+    for (var i = 0; i < srcs.length; i++) for (var k in srcs[i]) if (norm(k) === norm(name)) return srcs[i][k];
+    return null;
   }
 
   function parseT(b) {
@@ -28,19 +32,25 @@
     var h = +m[1], p = (m[3] || b.period || "").toLowerCase();
     if (p === "pm" && h < 12) h += 12; if (p === "am" && h === 12) h = 0; return h * 60 + +m[2];
   }
+  /* The master timetable is for the reference stop. Other stops = reference time +/- their offset.
+     Direction is decided by which end is Thodupuzha, NOT by array order. Offset sign is auto-detected. */
   function build() {
     var order = route.routeOrder, fi = order.indexOf(FROM), ti = order.indexOf(TO);
     seg = fi < ti ? order.slice(fi, ti + 1) : order.slice(ti, fi + 1).reverse();
     off = route.stopOffsets || {};
-    var arr = route[fi < ti ? FWD : BACK] || [], d0 = new Date(); d0.setHours(0, 0, 0, 0);
-    var dur = Math.abs((off[TO] || 0) - (off[FROM] || 0));
+    var ref = route.referenceStop || "Injikatt Kavala"; R0 = off[ref] || 0;
+    var te = -1; order.forEach(function (n, i) { if (te < 0 && /thodupuzha/i.test(n)) te = i; });
+    te = te < 0 || te >= order.length / 2 ? order.length - 1 : 0;         // index of the Thodupuzha end
+    var toward = Math.abs(ti - te) < Math.abs(fi - te);                   // heading towards Thodupuzha?
+    var sg = ((off[order[te]] || 0) - R0) >= 0 ? 1 : -1, k = toward ? sg : -sg;
+    var arr = route[toward ? TOWARD : AWAY] || [], d0 = new Date(); d0.setHours(0, 0, 0, 0);
     buses = arr.map(function (b) {
       var m = parseT(b); if (m == null) return null;
-      var dep = new Date(d0.getTime() + (m + (off[FROM] || 0)) * 60000);
-      return { key: ID + "|" + FROM + "|" + TO + "|" + dep.getTime(), name: b.busName || "Bus", reg: b.regNum || "", dep: dep, arr: new Date(dep.getTime() + dur * 60000) };
+      var refMs = d0.getTime() + m * 60000, at = function (x) { return refMs + k * ((off[x] || 0) - R0) * 60000; };
+      return { key: ID + "|" + FROM + "|" + TO + "|" + at(FROM), name: b.busName || "Bus", reg: b.regNum || "", ref: refMs, k: k, dep: new Date(at(FROM)), arr: new Date(at(TO)) };
     }).filter(Boolean).sort(function (a, b) { return a.dep - b.dep; });
   }
-  var stopT = function (b, s) { return b.dep.getTime() + Math.abs((off[s] || 0) - (off[FROM] || 0)) * 60000; };
+  var stopT = function (b, s) { return b.ref + b.k * ((off[s] || 0) - R0) * 60000; };
 
   /* live numbers for one bus at time `now` (all schedule maths, no GPS) */
   function stat(b, now) {
@@ -162,7 +172,7 @@
   var dot = function (c) { return L.divIcon({ className: "", iconSize: [18, 18], html: '<div style="width:18px;height:18px;border-radius:50%;background:' + c + ';border:3px solid #fff;box-shadow:0 0 0 2px ' + c + '"></div>' }); };
   function km(a, b) { var r = Math.PI / 180, dx = (b.lat - a.lat) * r, dy = (b.lng - a.lng) * r * Math.cos(a.lat * r); return Math.sqrt(dx * dx + dy * dy) * 6371000; }
   function initMap() {
-    var c = route.stopCoordinates || {}, a = c[FROM], b = c[TO];
+    var a = coordFor(FROM), b = coordFor(TO);
     if (!a || !b || !window.L) { $("#mapCard").hidden = true; return; }
     map = L.map("map").setView([a.lat, a.lng], 13);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap contributors" }).addTo(map);
@@ -170,14 +180,17 @@
     L.marker([b.lat, b.lng], { icon: dot("#dc2626") }).addTo(map).bindPopup(TO);
     drawRoute(a);
   }
+  /* the route is drawn through every stop between the two selected ones, so it follows the real bus path */
   function drawRoute(o) {
-    var b = route.stopCoordinates[TO], my = ++seq; lastO = o; lastAt = Date.now();
-    fetch("https://router.project-osrm.org/route/v1/driving/" + o.lng + "," + o.lat + ";" + b.lng + "," + b.lat + "?overview=full&geometries=geojson")
+    var my = ++seq; lastO = o; lastAt = Date.now();
+    var pts = [o].concat(seg.slice(1).map(coordFor).filter(Boolean)), last = coordFor(TO);
+    var qs = pts.map(function (p) { return p.lng + "," + p.lat; }).join(";");
+    fetch("https://router.project-osrm.org/route/v1/driving/" + qs + "?overview=full&geometries=geojson")
       .then(function (r) { return r.json(); }).then(function (d) {
         if (my !== seq || !d.routes || !d.routes[0]) throw 0;
-        var pts = d.routes[0].geometry.coordinates.map(function (p) { return [p[1], p[0]]; });
-        draw(pts, Math.round(d.routes[0].duration / 60) + " min by road, " + (d.routes[0].distance / 1000).toFixed(1) + " km");
-      }).catch(function () { if (my === seq) draw([[o.lat, o.lng], [b.lat, b.lng]], "Straight-line view (road route unavailable)"); });
+        var line2 = d.routes[0].geometry.coordinates.map(function (p) { return [p[1], p[0]]; });
+        draw(line2, Math.round(d.routes[0].duration / 60) + " min by road, " + (d.routes[0].distance / 1000).toFixed(1) + " km");
+      }).catch(function () { if (my === seq) draw(pts.map(function (p) { return [p.lat, p.lng]; }), "Straight-line view (road route unavailable)"); });
   }
   function draw(pts, info) {
     if (line) map.removeLayer(line);
