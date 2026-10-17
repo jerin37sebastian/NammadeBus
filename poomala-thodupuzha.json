@@ -1,0 +1,655 @@
+{
+ "referenceStop": "Injikatt Kavala",
+ "routeOrder": [
+  "Poomala",
+  "Injikatt Kavala",
+  "Pannimattom",
+  "Karukapally Kavala",
+  "Elamdhesham",
+  "Elamdhesham School",
+  "Kalayanthani",
+  "Alacode",
+  "Meenmutty",
+  "Edavetty",
+  "Edavetty Jaram",
+  "Kumbakallu",
+  "Thodupuzha Stand"
+ ],
+ "stopOffsets": {
+  "Injikatt Kavala": 0,
+  "Pannimattom": 3,
+  "Karukapally Kavala": 7.25,
+  "Elamdhesham": 10.4167,
+  "Elamdhesham School": 13.5834,
+  "Kalayanthani": 18.5834,
+  "Alacode": 22.3334,
+  "Meenmutty": 25.3334,
+  "Edavetty": 29.3334,
+  "Edavetty Jaram": 31.8334,
+  "Kumbakallu": 34.3334,
+  "Thodupuzha Stand": 44.3334,
+  "Poomala": -4
+ },
+ "schedule_to": [
+  {
+   "time": "5:50",
+   "period": "AM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "6:15",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "6:20",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "6:35",
+   "period": "AM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "6:45",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "7:05",
+   "period": "AM",
+   "busName": "LMS",
+   "regNum": ""
+  },
+  {
+   "time": "7:20",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "7:30",
+   "period": "AM",
+   "busName": "THACHUPARA",
+   "regNum": ""
+  },
+  {
+   "time": "7:40",
+   "period": "AM",
+   "busName": "NIBRAS",
+   "regNum": ""
+  },
+  {
+   "time": "7:55",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "8:05",
+   "period": "AM",
+   "busName": "SULTHANA",
+   "regNum": ""
+  },
+  {
+   "time": "8:21",
+   "period": "AM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "8:35",
+   "period": "AM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "8:49",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "9:05",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "9:22",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "9:35",
+   "period": "AM",
+   "busName": "NIBRAS",
+   "regNum": ""
+  },
+  {
+   "time": "9:41",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "9:57",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "10:24",
+   "period": "AM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "10:40",
+   "period": "AM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "10:56",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "11:32",
+   "period": "AM",
+   "busName": "NIBRAS",
+   "regNum": ""
+  },
+  {
+   "time": "11:40",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "11:49",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "11:57",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "12:15",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "12:30",
+   "period": "PM",
+   "busName": "SULTHANA",
+   "regNum": ""
+  },
+  {
+   "time": "12:55",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "1:05",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "1:30",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "1:44",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "1:54",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "2:20",
+   "period": "PM",
+   "busName": "NIBRAS",
+   "regNum": ""
+  },
+  {
+   "time": "2:34",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "2:41",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "2:50",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "3:13",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "3:25",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "3:35",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "3:54",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "4:21",
+   "period": "PM",
+   "busName": "NIBRAS",
+   "regNum": ""
+  },
+  {
+   "time": "4:35",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "4:45",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "4:53",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "5:05",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "5:20",
+   "period": "PM",
+   "busName": "SULTHANA",
+   "regNum": ""
+  },
+  {
+   "time": "5:36",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "5:52",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "6:05",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  }
+ ],
+ "schedule_from": [
+  {
+   "time": "7:30",
+   "period": "AM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "7:45",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "8:05",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "8:15",
+   "period": "AM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "8:25",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "8:42",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "9:06",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "9:20",
+   "period": "AM",
+   "busName": "NIBRAS",
+   "regNum": ""
+  },
+  {
+   "time": "9:35",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "10:04",
+   "period": "AM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "10:16",
+   "period": "AM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "10:30",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "11:00",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "11:16",
+   "period": "AM",
+   "busName": "NIBRAS",
+   "regNum": ""
+  },
+  {
+   "time": "11:22",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "11:31",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "11:46",
+   "period": "AM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "11:57",
+   "period": "AM",
+   "busName": "SULTHANA",
+   "regNum": ""
+  },
+  {
+   "time": "12:07",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "12:34",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "12:55",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "1:05",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "1:21",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "1:35",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "1:45",
+   "period": "PM",
+   "busName": "NIBRAS",
+   "regNum": ""
+  },
+  {
+   "time": "2:00",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "2:13",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "2:35",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "2:50",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "3:15",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "3:25",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "3:47",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "4:00",
+   "period": "PM",
+   "busName": "NIBRAS",
+   "regNum": ""
+  },
+  {
+   "time": "4:15",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "4:19",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "4:30",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "4:56",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "5:03",
+   "period": "PM",
+   "busName": "SULTHANA",
+   "regNum": ""
+  },
+  {
+   "time": "5:16",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "5:40",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "5:46",
+   "period": "PM",
+   "busName": "KSRTC",
+   "regNum": ""
+  },
+  {
+   "time": "6:01",
+   "period": "PM",
+   "busName": "NIBRAS",
+   "regNum": ""
+  },
+  {
+   "time": "6:19",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "6:27",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "6:35",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "7:00",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "7:10",
+   "period": "PM",
+   "busName": "NOAH",
+   "regNum": ""
+  },
+  {
+   "time": "7:32",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "7:44",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "7:53",
+   "period": "PM",
+   "busName": "LMS",
+   "regNum": ""
+  },
+  {
+   "time": "8:09",
+   "period": "PM",
+   "busName": "MARIYA",
+   "regNum": ""
+  },
+  {
+   "time": "8:40",
+   "period": "PM",
+   "busName": "THACHUPARA",
+   "regNum": ""
+  },
+  {
+   "time": "9:15",
+   "period": "PM",
+   "busName": "SULTHANA",
+   "regNum": ""
+  }
+ ]
+}
