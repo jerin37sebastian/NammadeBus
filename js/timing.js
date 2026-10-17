@@ -8,7 +8,7 @@
   var TOWARD = "schedule_to", AWAY = "schedule_from";
   var route, off = {}, R0 = 0, seg = [], buses = [], cards = {};
   var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
-  var clock = function (d) { var h = d.getHours(), m = d.getMinutes(); return ((h % 12) || 12) + ":" + (m < 10 ? "0" : "") + m + " " + (h < 12 ? "AM" : "PM"); };
+  var clock = function (d) { d = new Date(d.getTime() + 30000); var h = d.getHours(), m = d.getMinutes(); return ((h % 12) || 12) + ":" + (m < 10 ? "0" : "") + m + " " + (h < 12 ? "AM" : "PM"); };
 
   /* placeholder data, used only when Firebase is not configured */
   function demo() {
